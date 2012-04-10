@@ -247,4 +247,59 @@ public function actionFileBrowser()
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+	
+	public function addUser(){
+		
+		$model=new LoginForm;
+		
+		if(isset($_POST['LoginForm']))
+		{
+			$model->attributes=$_POST['LoginForm'];
+	
+			
+			
+			
+			
+		}
+		// display the login form
+		$this->render('login',array('model'=>$model));
+			
+			$user = $this->username;
+			$password = $this->password;
+			$host = "ec-server";
+			$domain = "ecepik.local";
+			$basedn = "dc=ecepik,dc=local";
+			$group = "EquipeCepik";
+			try{
+				$ds = ldap_connect("{$host}.{$domain}");
+			}catch(CHttpException $e){
+				throw $e(400,'Não foi possível conectar ao nosso servidor LDAP.');
+			}
+			
+			ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+			ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+			
+			//Adiciona user
+			if ($ds) {
+				
+				 // prepare data
+			    $info["cn"] = "John Jones";
+			    $info["sn"] = "Jones";
+			    $info["mail"] = "jonj@example.com";
+			    $info["objectclass"] = "person";
+			
+			    // add data to directory
+			    $r = ldap_add($ds, "cn=John Jones, o=My Company, c=US", $info);
+			    if(!$f){
+			    	throw new CHttpException(400,'Não foi possivel adicionar o usuário');
+			    }
+			
+			    ldap_close($ds);
+			
+			}else{
+				throw new CHttpException(400,'Não foi possivel conectar com o servidor');
+			}
+		 
+		
+	}
 }
