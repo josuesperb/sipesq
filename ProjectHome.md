@@ -1,0 +1,1 @@
+O SIPESQ auxilia a vida de um pesquisador da UFRGS cuidando dos seus projetos de pesquisa, bolsistas, atividades e patrimônios.
